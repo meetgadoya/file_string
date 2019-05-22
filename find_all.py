@@ -7,16 +7,18 @@ class find_all:
         self.d={}
 
         self.files=[]
+
+
         for filename in os.listdir(os.getcwd()):
-            if fnmatch.fnmatch(filename, 'P*.txt'):
+            if fnmatch.fnmatch(filename, 'P*.txt'):     # checking filename should begin with P
                 file_obj=open(filename,"r",encoding="utf8")
-                self.files.append(filename)
+                self.files.append(filename)             # maintaining a list of all valid file names
                 for line in file_obj:
                     for word in line.split():
                         if word=='\n':
                             continue
 
-                        self.d[(filename,word)] = 1
+                        self.d[(filename,word)] = 1         # maintaining a dictionary with key as (filename, word)
                 file_obj.close()
 
         # self.d = sorted(self.d.items(), key=operator.itemgetter(1))
@@ -26,21 +28,21 @@ class find_all:
 
     def find_property(self,strings):
         li=[]
-        for eachfile in self.files:
+        for eachfile in self.files:                         # iterating over all valid file names
             count=0
             for string in strings:
-                if (eachfile,string) in self.d.keys():
+                if (eachfile,string) in self.d.keys():              # checking (filename,word) in dictionary
                         count+=1
                         # if(self.d[(eachfile,string)])>1:
                         #     print((eachfile,string),self.d[(eachfile,string)])
                         #     break
                         # count+=self.d[(eachfile,string)]
-            if(count==0):
+            if(count==0):                                   # if count is still 0 then we dont append it into list
                 continue
             li.append((eachfile,count))
         # print("li")
         # print(li)
-        li=sorted(li,key=lambda x:-x[1])
+        li=sorted(li,key=lambda x:-x[1])                # sorting the list based on count
         print(li)
 
 
